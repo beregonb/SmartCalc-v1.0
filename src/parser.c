@@ -55,9 +55,7 @@ void parser(in_out *myStruct) {
 
       free(number);
     } else {
-      str = push(str, "+");
-      i++;
-      printf("Top element of the stack: %s\n", peek(str));
+      parser_sign_and_functions(myStruct, &str, &lenght_out, &i);
     }
   }
   out_copy(myStruct, peek(str), &lenght_out);
@@ -71,6 +69,94 @@ void out_copy(in_out *myStruct, char *str, int *lenght_out) {
   }
   myStruct->out[*lenght_out] = ' '; // Добавляем пробел после числа
   (*lenght_out)++;
+}
+
+void parser_sign_and_functions(in_out *myStruct, stack **str, int *lenght_out,
+                               int *lenght_in) {
+  int i = 0;
+  if (strchr("+-*/m^cstal", myStruct->in[*lenght_in]) != NULL) {
+    if (myStruct->in[*lenght_in] == '^') {
+      *str = push(*str, "^");
+    } else if (myStruct->in[*lenght_in] == '+') {
+      *str = push(*str, "+");
+    } else if (myStruct->in[*lenght_in] == '-') {
+      *str = push(*str, "-");
+    } else if (myStruct->in[*lenght_in] == '*') {
+      *str = push(*str, "*");
+    } else if (myStruct->in[*lenght_in] == '/') {
+      *str = push(*str, "/");
+    } else {
+      int i = examination_functions(myStruct, lenght_in);
+      if (i == 1) {
+        *str = push(*str, "m");
+      } else if (i == 2) {
+        *str = push(*str, "C");
+      } else if (i == 3) {
+        *str = push(*str, "S");
+      } else if (i == 4) {
+        *str = push(*str, "q");
+      } else if (i == 5) {
+        *str = push(*str, "T");
+      } else if (i == 6) {
+        *str = push(*str, "c");
+      } else if (i == 7) {
+        *str = push(*str, "s");
+      } else if (i == 8) {
+        *str = push(*str, "t");
+      } else if (i == 9) {
+        *str = push(*str, "l");
+      } else if (i == 10) {
+        *str = push(*str, "L");
+      } else {
+        printf("Error\n");
+      }
+    }
+    (*lenght_in)++;
+  }
+}
+int examination_functions(in_out *myStruct, int *lenght_in) {
+  int flag = 0;
+  if (strncmp("mod", &myStruct->in[*lenght_in], 3) == 0) {
+    flag = 1;
+    (*lenght_in) += 2;
+  }
+  if (strncmp("cos", &myStruct->in[*lenght_in], 3) == 0) {
+    flag = 2;
+    (*lenght_in) += 2;
+  }
+  if (strncmp("sin", &myStruct->in[*lenght_in], 3) == 0) {
+    flag = 3;
+    (*lenght_in) += 2;
+  }
+  if (strncmp("sqrt", &myStruct->in[*lenght_in], 4) == 0) {
+    flag = 4;
+    (*lenght_in) += 3;
+  }
+  if (strncmp("tan", &myStruct->in[*lenght_in], 3) == 0) {
+    flag = 5;
+    (*lenght_in) += 2;
+  }
+  if (strncmp("acos", &myStruct->in[*lenght_in], 4) == 0) {
+    flag = 6;
+    (*lenght_in) += 3;
+  }
+  if (strncmp("asin", &myStruct->in[*lenght_in], 4) == 0) {
+    flag = 7;
+    (*lenght_in) += 3;
+  }
+  if (strncmp("atan", &myStruct->in[*lenght_in], 4) == 0) {
+    flag = 8;
+    (*lenght_in) += 3;
+  }
+  if (strncmp("log", &myStruct->in[*lenght_in], 3) == 0) {
+    flag = 9;
+    (*lenght_in) += 2;
+  }
+  if (strncmp("ln", &myStruct->in[*lenght_in], 2) == 0) {
+    flag = 10;
+    (*lenght_in) += 1;
+  }
+  return flag;
 }
 
 int main() {
