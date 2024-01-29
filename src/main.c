@@ -1,32 +1,26 @@
 #include "stack.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 int main() {
-  char *result;
-  result = malloc(100 * sizeof(char));
+    stack *top = NULL; // Инициализация пустого стека
 
-  stack *str = NULL;
+    // Добавление элемента в стек
+    top = push(top, "Hello");
 
-  str = push(str, "3");
-  str = push(str, "cos");
-  str = push(str, "5");
-  str = push(str, "ct");
-
-  int i = 0;
-  while (str) {
-    if (str) {
-      strcpy(result + i, str->str);
-      i += strlen(str->str);
+    // Проверка, не пуст ли стек
+    if (!isEmpty(top)) {
+        // Вывод верхнего элемента стека
+        printf("Top element of the stack: %s\n", peek(top));
+    } else {
+        printf("Stack is empty.\n");
     }
-    str = pop(str);
-  }
 
-  result[i] = '\0'; // Добавляем завершающий нуль-символ
+    // Очистка стека
+    clear(&top);
 
-  printf("Result: %s\n", result);
+    // Освобождение памяти после использования
+    destroy(&top);
 
-  free(result);
-  return 0;
+    return 0;
 }
