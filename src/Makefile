@@ -5,3 +5,7 @@ all:
 
 clean:
 	rm *.out
+
+
+style:
+	clang-format -i --style=google *.c *.h

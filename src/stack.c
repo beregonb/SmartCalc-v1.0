@@ -7,11 +7,21 @@
  * @param c
  * @return stack*
  */
-stack *push(stack *top, char *c) {
-  stack *new = malloc(sizeof(stack));
-  new->str = c;
-  new->next = top;
-  return new;
+stack *push(stack *top, const char *c) {
+    stack *new = malloc(sizeof(stack));
+    if (new == NULL) {
+        fprintf(stderr, "Memory allocation error.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    new->str = strdup(c);  // Создаем копию строки
+    if (new->str == NULL) {
+        fprintf(stderr, "Memory allocation error.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    new->next = top;
+    return new;
 }
 /**
  * @brief Удалдение верхнего элемента стека

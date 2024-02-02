@@ -1,9 +1,11 @@
 #include "parser.h"
-#include "stack.h"
+
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "stack.h"
 
 // Функция для чтения строки и выделения памяти
 void readLine(char **str) {
@@ -25,7 +27,7 @@ void memory_out(in_out *myStruct) {
   myStruct->out = malloc((strlen(myStruct->in) + 1) * sizeof(char));
   if (myStruct->out == NULL) {
     fprintf(stderr, "Memory allocation error.\n");
-    free(myStruct->in); // Освобождение памяти, если произошла ошибка
+    free(myStruct->in);  // Освобождение памяти, если произошла ошибка
     exit(EXIT_FAILURE);
   }
 }
@@ -34,126 +36,116 @@ void parser(in_out *myStruct) {
   stack *str = NULL;
   int i = 0;
   int lenght_out = 0;
+  char *sign_stack = NULL;
   while (myStruct->in[i] != '\0') {
     if (isdigit(myStruct->in[i])) {
-
-      int start = i;
-      while (isdigit(myStruct->in[i])) {
-        i++;
-      }
-      int length = i - start;
-      char *number = malloc((length + 1) * sizeof(char));
-      if (number == NULL) {
-        fprintf(stderr, "Memory allocation error.\n");
-        exit(EXIT_FAILURE);
-      }
-
-      strncpy(number, &myStruct->in[start], length);
-      number[length] = '\0';
-
-      out_copy(myStruct, number, &lenght_out);
-
-      free(number);
+      operand(myStruct, &i, &lenght_out);
     } else {
-      parser_sign_and_functions(myStruct, &str, &lenght_out, &i);
+      sign_stack = parser_sign_and_functions(myStruct, &str, &lenght_out, &i);
+      if (sign_stack != NULL) {
+        printf("Sign: %s\n", sign_stack);
+        push(str, sign_stack);
+        out_copy(myStruct, peek(str), &lenght_out);
+        free(sign_stack);
+      } 
     }
+
   }
-  out_copy(myStruct, peek(str), &lenght_out);
+ 
+}
+void operand(in_out *myStruct, int *i, int *lenght_out) {
+  int start = *i;
+  while (isdigit(myStruct->in[*i])) {
+    (*i)++;
+  }
+  int length = *i - start;
+  char *number = malloc((length + 1) * sizeof(char));
+  if (number == NULL) {
+    fprintf(stderr, "Memory allocation error.\n");
+    exit(EXIT_FAILURE);
+  }
+
+  strncpy(number, &myStruct->in[start], length);
+  number[length] = '\0';
+
+  out_copy(myStruct, number, lenght_out);
+
+  free(number);
 }
 
 void out_copy(in_out *myStruct, char *str, int *lenght_out) {
-
   for (int j = 0; j < strlen(str); j++) {
     myStruct->out[*lenght_out] = str[j];
     (*lenght_out)++;
   }
-  myStruct->out[*lenght_out] = ' '; // Добавляем пробел после числа
+  myStruct->out[*lenght_out] = ' ';  // Добавляем пробел после числа
   (*lenght_out)++;
 }
 
-void parser_sign_and_functions(in_out *myStruct, stack **str, int *lenght_out,
-                               int *lenght_in) {
-  int i = 0;
+char *parser_sign_and_functions(in_out *myStruct, stack **str, int *lenght_out,
+                                int *lenght_in) {
+  char *sign = NULL;
   if (strchr("+-*/m^cstal", myStruct->in[*lenght_in]) != NULL) {
-    if (myStruct->in[*lenght_in] == '^') {
-      *str = push(*str, "^");
-    } else if (myStruct->in[*lenght_in] == '+') {
-      *str = push(*str, "+");
-    } else if (myStruct->in[*lenght_in] == '-') {
-      *str = push(*str, "-");
-    } else if (myStruct->in[*lenght_in] == '*') {
-      *str = push(*str, "*");
-    } else if (myStruct->in[*lenght_in] == '/') {
-      *str = push(*str, "/");
-    } else {
-      int i = examination_functions(myStruct, lenght_in);
-      if (i == 1) {
-        *str = push(*str, "m");
-      } else if (i == 2) {
-        *str = push(*str, "C");
-      } else if (i == 3) {
-        *str = push(*str, "S");
-      } else if (i == 4) {
-        *str = push(*str, "q");
-      } else if (i == 5) {
-        *str = push(*str, "T");
-      } else if (i == 6) {
-        *str = push(*str, "c");
-      } else if (i == 7) {
-        *str = push(*str, "s");
-      } else if (i == 8) {
-        *str = push(*str, "t");
-      } else if (i == 9) {
-        *str = push(*str, "l");
-      } else if (i == 10) {
-        *str = push(*str, "L");
+    if (strchr("+-*/^", myStruct->in[*lenght_in]) != NULL) {
+      if (myStruct->in[*lenght_in] == '^') {
+        sign = "^";
+      } else if (myStruct->in[*lenght_in] == '+') {
+        sign = "+";
+      } else if (myStruct->in[*lenght_in] == '-') {
+        sign = "-";
+      } else if (myStruct->in[*lenght_in] == '*') {
+        sign = "*";
       } else {
-        printf("Error\n");
+        sign = "/";
       }
+    } else {
+      sign = examination_functions(myStruct, lenght_in);
     }
     (*lenght_in)++;
   }
+  return sign;
 }
-int examination_functions(in_out *myStruct, int *lenght_in) {
-  int flag = 0;
+
+char *examination_functions(in_out *myStruct, int *lenght_in) {
+  char *flag = NULL;
   if (strncmp("mod", &myStruct->in[*lenght_in], 3) == 0) {
-    flag = 1;
+    flag = "m";
     (*lenght_in) += 2;
   }
   if (strncmp("cos", &myStruct->in[*lenght_in], 3) == 0) {
-    flag = 2;
+    flag = "C";
     (*lenght_in) += 2;
   }
   if (strncmp("sin", &myStruct->in[*lenght_in], 3) == 0) {
-    flag = 3;
+    flag = "S";
     (*lenght_in) += 2;
   }
   if (strncmp("sqrt", &myStruct->in[*lenght_in], 4) == 0) {
-    flag = 4;
+    flag = "q";
     (*lenght_in) += 3;
   }
   if (strncmp("tan", &myStruct->in[*lenght_in], 3) == 0) {
-    flag = 5;
+    flag = "T";
     (*lenght_in) += 2;
   }
   if (strncmp("acos", &myStruct->in[*lenght_in], 4) == 0) {
-    flag = 6;
+    flag = "c";
     (*lenght_in) += 3;
   }
   if (strncmp("asin", &myStruct->in[*lenght_in], 4) == 0) {
-    flag = 7;
+    flag = "s";
     (*lenght_in) += 3;
   }
   if (strncmp("atan", &myStruct->in[*lenght_in], 4) == 0) {
-    flag = 8;
+    flag = "t";
     (*lenght_in) += 3;
   }
   if (strncmp("log", &myStruct->in[*lenght_in], 3) == 0) {
-    flag = 9;
+    flag = "l";
     (*lenght_in) += 2;
   }
   if (strncmp("ln", &myStruct->in[*lenght_in], 2) == 0) {
-    flag = 10;
+    flag = "L";
     (*lenght_in) += 1;
   }
   return flag;

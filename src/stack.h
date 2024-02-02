@@ -1,12 +1,13 @@
 #ifndef STACK_H
 #define STACK_H
 
-#include "parser.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-stack *push(stack *top, char *c);
+#include "parser.h"
+
+stack *push(stack *top, const char *c);
 stack *pop(stack *top);
 char *peek(const stack *top);
 int isEmpty(const stack *top);
