@@ -41,17 +41,20 @@ void parser(in_out *myStruct) {
     if (isdigit(myStruct->in[i])) {
       operand(myStruct, &i, &lenght_out);
     } else {
-      sign_stack = parser_sign_and_functions(myStruct, &str, &lenght_out, &i);
+      sign_stack = parser_sign_and_functions(myStruct, &lenght_out, &i);
       if (sign_stack != NULL) {
-        printf("Sign: %s\n", sign_stack);
-        push(str, sign_stack);
-        out_copy(myStruct, peek(str), &lenght_out);
-        free(sign_stack);
-      } 
+        push_stack_priority(&str, myStruct, sign_stack, &lenght_out);
+      }
     }
-
   }
- 
+  while (!isEmpty(str)) {
+    if (strcmp(peek(str), "(") == 0) {
+      str = pop(str);
+    } else {
+      out_copy(myStruct, peek(str), &lenght_out);
+      str = pop(str);
+    }
+  }
 }
 void operand(in_out *myStruct, int *i, int *lenght_out) {
   int start = *i;
@@ -82,11 +85,11 @@ void out_copy(in_out *myStruct, char *str, int *lenght_out) {
   (*lenght_out)++;
 }
 
-char *parser_sign_and_functions(in_out *myStruct, stack **str, int *lenght_out,
+char *parser_sign_and_functions(in_out *myStruct, int *lenght_out,
                                 int *lenght_in) {
   char *sign = NULL;
-  if (strchr("+-*/m^cstal", myStruct->in[*lenght_in]) != NULL) {
-    if (strchr("+-*/^", myStruct->in[*lenght_in]) != NULL) {
+  if (strchr("+-*/m^cstal()", myStruct->in[*lenght_in]) != NULL) {
+    if (strchr("+-*/^()", myStruct->in[*lenght_in]) != NULL) {
       if (myStruct->in[*lenght_in] == '^') {
         sign = "^";
       } else if (myStruct->in[*lenght_in] == '+') {
@@ -95,6 +98,10 @@ char *parser_sign_and_functions(in_out *myStruct, stack **str, int *lenght_out,
         sign = "-";
       } else if (myStruct->in[*lenght_in] == '*') {
         sign = "*";
+      } else if (myStruct->in[*lenght_in] == '(') {
+        sign = "(";
+      } else if (myStruct->in[*lenght_in] == ')') {
+        sign = ")";
       } else {
         sign = "/";
       }
@@ -149,6 +156,49 @@ char *examination_functions(in_out *myStruct, int *lenght_in) {
     (*lenght_in) += 1;
   }
   return flag;
+}
+
+int priority(char *stack) {
+  int prior;
+  if (strcmp(stack, "+") == 0 || strcmp(stack, "-") == 0) {
+    prior = 1;
+  } else if (strcmp(stack, "*") == 0 || strcmp(stack, "/") == 0 ||
+             strcmp(stack, "m") == 0) {
+    prior = 2;
+  } else if (strcmp(stack, "^") == 0) {
+    prior = 3;
+  } else if (strcmp(stack, "C") == 0 || strcmp(stack, "S") == 0 ||
+             strcmp(stack, "q") == 0 || strcmp(stack, "T") == 0 ||
+             strcmp(stack, "c") == 0 || strcmp(stack, "s") == 0 ||
+             strcmp(stack, "t") == 0 || strcmp(stack, "l") == 0 ||
+             strcmp(stack, "L") == 0) {
+    prior = 4;
+  } else {
+    prior = 0;
+  }
+  return prior;
+}
+
+void push_stack_priority(stack **top, in_out *myStruct, char *stack,
+                         int *length_out) {
+  if (isEmpty(*top) || (priority(stack) > priority(peek(*top))) ||
+      strcmp(stack, "(") == 0) {
+    *top = push(*top, stack);
+  } else if (strcmp(stack, ")") == 0) {
+    while (!isEmpty(*top) && strcmp(peek(*top), "(") != 0) {
+      out_copy(myStruct, peek(*top), length_out);
+      *top = pop(*top);
+    }
+    if (!isEmpty(*top) && strcmp(peek(*top), "(") == 0) {
+      *top = pop(*top);
+    }
+  } else {
+    while (!isEmpty(*top) && priority(stack) <= priority(peek(*top))) {
+      out_copy(myStruct, peek(*top), length_out);
+      *top = pop(*top);
+    }
+    *top = push(*top, stack);
+  }
 }
 
 int main() {

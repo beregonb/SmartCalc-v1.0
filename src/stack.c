@@ -8,20 +8,10 @@
  * @return stack*
  */
 stack *push(stack *top, const char *c) {
-    stack *new = malloc(sizeof(stack));
-    if (new == NULL) {
-        fprintf(stderr, "Memory allocation error.\n");
-        exit(EXIT_FAILURE);
-    }
-
-    new->str = strdup(c);  // Создаем копию строки
-    if (new->str == NULL) {
-        fprintf(stderr, "Memory allocation error.\n");
-        exit(EXIT_FAILURE);
-    }
-
-    new->next = top;
-    return new;
+  stack *new = malloc(sizeof(stack));
+  new->str = strdup(c);
+  new->next = top;
+  return new;
 }
 /**
  * @brief Удалдение верхнего элемента стека
@@ -48,7 +38,7 @@ stack *pop(stack *top) {
  */
 char *peek(const stack *top) {
   if (top == NULL) {
-    fprintf(stderr, "Error: The stack is empty.\n");
+    fprintf(stderr, "Стек пуст.\n");
     return NULL;
   }
 
