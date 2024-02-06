@@ -1,7 +1,7 @@
 #include "stack.h"
 
 /**
- * @brief Добавление элемента в стек
+ * @brief Добавление элемента (строка) в стек
  *
  * @param top
  * @param c
@@ -23,7 +23,6 @@ stack *pop(stack *top) {
   if (top == NULL) {
     return top;
   }
-  printf("Del: - %s\n", top->str);
   stack *new_top = top->next;
   free(top);
 
@@ -31,7 +30,7 @@ stack *pop(stack *top) {
 }
 
 /**
- * @brief Отображение верхнего элемента стека
+ * @brief Отображение верхнего элемента стека (строки)
  *
  * @param top
  * @return char*
@@ -44,6 +43,7 @@ char *peek(const stack *top) {
 
   return top->str;
 }
+
 /**
  * @brief Проверка стека на пустоту
  *

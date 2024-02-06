@@ -5,6 +5,7 @@ all:
 
 clean:
 	rm *.out
+	rm *.gc
 
 
 style:

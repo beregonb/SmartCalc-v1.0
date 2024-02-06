@@ -38,7 +38,7 @@ void parser(in_out *myStruct) {
   int lenght_out = 0;
   char *sign_stack = NULL;
   while (myStruct->in[i] != '\0') {
-    if (isdigit(myStruct->in[i])) {
+    if (isdigit(myStruct->in[i]) || myStruct->in[i] == '.' || myStruct->in[i] == 'x') {
       operand(myStruct, &i, &lenght_out);
     } else {
       sign_stack = parser_sign_and_functions(myStruct, &lenght_out, &i);
@@ -55,10 +55,11 @@ void parser(in_out *myStruct) {
       str = pop(str);
     }
   }
+  myStruct->out[lenght_out] = '\0';
 }
 void operand(in_out *myStruct, int *i, int *lenght_out) {
   int start = *i;
-  while (isdigit(myStruct->in[*i])) {
+  while (isdigit(myStruct->in[*i]) || myStruct->in[*i] == '.' || myStruct->in[*i] == 'x') {
     (*i)++;
   }
   int length = *i - start;
@@ -199,25 +200,4 @@ void push_stack_priority(stack **top, in_out *myStruct, char *stack,
     }
     *top = push(*top, stack);
   }
-}
-
-int main() {
-  in_out myStruct;
-
-  printf("Enter input string: ");
-  readLine(&(myStruct.in));
-  memory_out(&myStruct);
-
-  // Выделение памяти и инициализация для строки out (по вашему желанию)
-
-  printf("Input string: %s\n", myStruct.in);
-
-  parser(&myStruct);
-  printf("Output string: %s\n", myStruct.out);
-
-  // Освобождение памяти после использования
-  free(myStruct.in);
-  free(myStruct.out);
-
-  return 0;
 }

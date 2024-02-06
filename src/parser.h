@@ -11,6 +11,7 @@ typedef struct stack {
   struct stack *next;
 } stack;
 
+
 void readLine(char **str);
 void memory_out(in_out *myStruct);
 void parser(in_out *myStruct);
