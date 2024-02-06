@@ -1,0 +1,17 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "build parser",
+        "type": "shell",
+        "command": "gcc",
+        "args": ["parser.c", "stack.c", "-o", "a.out", "-g"],
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        }
+      }
+    ]
+  }
+  
+  
