@@ -1,7 +1,8 @@
 
 all:
 
-	gcc main.c stack.h stack.c -o a
+	gcc calculation.c calculation.h parser.c parser.h stack.c stack.h -lm
+	./a.out
 
 clean:
 	rm *.out

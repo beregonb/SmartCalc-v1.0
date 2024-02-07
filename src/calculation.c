@@ -9,8 +9,9 @@ void perser_calc(in_out *myStruct) {
   while (myStruct->out[i] != '\0') {
     if (isdigit(myStruct->out[i])) {
       operand_calc(myStruct, &str, &i);
-      
+      printf("top - %s\n", peek(str));
     } else {
+      printf("зашел\n");
       calculation(myStruct, &str, &i);
     }
     i++;
@@ -30,20 +31,34 @@ void calculation(in_out *myStruct, stack **top, int *i) {
   char *sign = malloc((length + 1) * sizeof(char));
   strncpy(sign, &myStruct->out[start], length);
   sign[length] = '\0';
-
   a = strtod(peek(*top), NULL);
   *top = pop(*top);
-  b = strtod(peek(*top), NULL);
-  *top = pop(*top);
-  result = function_math(a, b, sign);
-  
+
+  printf("sign = %s\n", sign);
+  if (strcmp(sign, "C") == 0 || strcmp(sign, "S") == 0 ||
+      strcmp(sign, "q") == 0 || strcmp(sign, "T") == 0 ||
+      strcmp(sign, "c") == 0 || strcmp(sign, "s") == 0 ||
+      strcmp(sign, "t") == 0 || strcmp(sign, "l") == 0 ||
+      strcmp(sign, "L") == 0) {
+    printf("a = %lf\n", a);
+    result = function_func(a, sign);
+    printf("resultUN = %lf\n", result);
+  } else {
+    b = strtod(peek(*top), NULL);
+    printf("a = %lf\n", a);
+    printf("b = %lf\n", b);
+    *top = pop(*top);
+    result = function_math(a, b, sign);
+    printf("resultBIN = %lf\n", result);
+  }
   snprintf(str, sizeof(str), "%lf", result);
   *top = push(*top, str);
 }
 
 void operand_calc(in_out *myStruct, stack **top, int *i) {
   int start = *i;
-  while (isdigit(myStruct->in[*i])) {
+  while (isdigit(myStruct->out[*i]) || myStruct->out[*i] == '.' ||
+         myStruct->out[*i] == 'x') {
     (*i)++;
   }
   int length = *i - start;
@@ -52,9 +67,9 @@ void operand_calc(in_out *myStruct, stack **top, int *i) {
     fprintf(stderr, "Memory allocation error.\n");
     exit(EXIT_FAILURE);
   }
-
-  strncpy(number, &myStruct->in[start], length);
+  strncpy(number, &myStruct->out[start], length);
   number[length] = '\0';
+  printf("number = %s\n", number);
   *top = push(*top, number);
 
   free(number);
@@ -65,16 +80,22 @@ double function_math(double a, double b, char *sign) {
   if (strcmp(sign, "+") == 0) {
     result = a + b;
   } else if (strcmp(sign, "-") == 0) {
-    result = a - b;
+    result = b - a;
   } else if (strcmp(sign, "*") == 0) {
     result = a * b;
   } else if (strcmp(sign, "/") == 0) {
     result = a / b;
   } else if (strcmp(sign, "m") == 0) {
     result = fmod(a, b);
-  } else if (strcmp(sign, "^") == 0) {
+  } else {
     result = pow(a, b);
-  } else if (strcmp(sign, "C") == 0) {
+  }
+  return result;
+}
+
+double function_func(double a, char *sign) {
+  double result;
+  if (strcmp(sign, "C") == 0) {
     result = cos(a);
   } else if (strcmp(sign, "S") == 0) {
     result = sin(a);
@@ -89,9 +110,9 @@ double function_math(double a, double b, char *sign) {
   } else if (strcmp(sign, "t") == 0) {
     result = atan(a);
   } else if (strcmp(sign, "l") == 0) {
-    result = log(a);
-  } else if (strcmp(sign, "L") == 0) {
     result = log10(a);
+  } else {
+    result = log(a);
   }
   return result;
 }
@@ -110,7 +131,6 @@ int main() {
   parser(&myStruct);
   printf("Output string: %s\n", myStruct.out);
   perser_calc(&myStruct);
-
 
   // Освобождение памяти после использования
   free(myStruct.in);

@@ -37,11 +37,17 @@ void parser(in_out *myStruct) {
   int i = 0;
   int lenght_out = 0;
   char *sign_stack = NULL;
+  int unar = 1;
   while (myStruct->in[i] != '\0') {
-    if (isdigit(myStruct->in[i]) || myStruct->in[i] == '.' || myStruct->in[i] == 'x') {
+    if (myStruct->in[i] == '(') {
+      unar = 1;
+    }
+    if (isdigit(myStruct->in[i]) || myStruct->in[i] == '.' ||
+        myStruct->in[i] == 'x') {
       operand(myStruct, &i, &lenght_out);
+      unar = 0;
     } else {
-      sign_stack = parser_sign_and_functions(myStruct, &lenght_out, &i);
+      sign_stack = parser_sign_and_functions(myStruct, &lenght_out, &i, unar);
       if (sign_stack != NULL) {
         push_stack_priority(&str, myStruct, sign_stack, &lenght_out);
       }
@@ -59,7 +65,8 @@ void parser(in_out *myStruct) {
 }
 void operand(in_out *myStruct, int *i, int *lenght_out) {
   int start = *i;
-  while (isdigit(myStruct->in[*i]) || myStruct->in[*i] == '.' || myStruct->in[*i] == 'x') {
+  while (isdigit(myStruct->in[*i]) || myStruct->in[*i] == '.' ||
+         myStruct->in[*i] == 'x') {
     (*i)++;
   }
   int length = *i - start;
@@ -87,15 +94,21 @@ void out_copy(in_out *myStruct, char *str, int *lenght_out) {
 }
 
 char *parser_sign_and_functions(in_out *myStruct, int *lenght_out,
-                                int *lenght_in) {
+                                int *lenght_in, int unar) {
   char *sign = NULL;
   if (strchr("+-*/m^cstal()", myStruct->in[*lenght_in]) != NULL) {
     if (strchr("+-*/^()", myStruct->in[*lenght_in]) != NULL) {
       if (myStruct->in[*lenght_in] == '^') {
         sign = "^";
       } else if (myStruct->in[*lenght_in] == '+') {
+        if (unar == 1) {
+          out_copy(myStruct, "0", lenght_out);
+        }
         sign = "+";
       } else if (myStruct->in[*lenght_in] == '-') {
+        if (unar == 1) {
+          out_copy(myStruct, "0", lenght_out);
+        }
         sign = "-";
       } else if (myStruct->in[*lenght_in] == '*') {
         sign = "*";
@@ -166,7 +179,7 @@ int priority(char *stack) {
   } else if (strcmp(stack, "*") == 0 || strcmp(stack, "/") == 0 ||
              strcmp(stack, "m") == 0) {
     prior = 2;
-  } else if (strcmp(stack, "^") == 0) {
+  } else if (strcmp(stack, "^") == 0 || strcmp(stack, "~") == 0) {
     prior = 3;
   } else if (strcmp(stack, "C") == 0 || strcmp(stack, "S") == 0 ||
              strcmp(stack, "q") == 0 || strcmp(stack, "T") == 0 ||
