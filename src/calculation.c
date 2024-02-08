@@ -17,6 +17,7 @@ void perser_calc(in_out *myStruct) {
     i++;
   }
   printf("%s\n", peek(str));
+  destroy(&str);
 }
 
 void calculation(in_out *myStruct, stack **top, int *i) {
@@ -31,9 +32,9 @@ void calculation(in_out *myStruct, stack **top, int *i) {
   char *sign = malloc((length + 1) * sizeof(char));
   strncpy(sign, &myStruct->out[start], length);
   sign[length] = '\0';
+   printf("%s",peek(*top));
   a = strtod(peek(*top), NULL);
   *top = pop(*top);
-
   printf("sign = %s\n", sign);
   if (strcmp(sign, "C") == 0 || strcmp(sign, "S") == 0 ||
       strcmp(sign, "q") == 0 || strcmp(sign, "T") == 0 ||
@@ -44,6 +45,7 @@ void calculation(in_out *myStruct, stack **top, int *i) {
     result = function_func(a, sign);
     printf("resultUN = %lf\n", result);
   } else {
+    
     b = strtod(peek(*top), NULL);
     printf("a = %lf\n", a);
     printf("b = %lf\n", b);
@@ -53,6 +55,7 @@ void calculation(in_out *myStruct, stack **top, int *i) {
   }
   snprintf(str, sizeof(str), "%lf", result);
   *top = push(*top, str);
+  free(sign);
 }
 
 void operand_calc(in_out *myStruct, stack **top, int *i) {
@@ -84,11 +87,11 @@ double function_math(double a, double b, char *sign) {
   } else if (strcmp(sign, "*") == 0) {
     result = a * b;
   } else if (strcmp(sign, "/") == 0) {
-    result = a / b;
+    result = b / a;
   } else if (strcmp(sign, "m") == 0) {
     result = fmod(a, b);
   } else {
-    result = pow(a, b);
+    result = pow(b, a);
   }
   return result;
 }
@@ -118,8 +121,7 @@ double function_func(double a, char *sign) {
 }
 
 int main() {
-  in_out myStruct;
-
+  in_out myStruct = {NULL, NULL};
   printf("Enter input string: ");
   readLine(&(myStruct.in));
   memory_out(&myStruct);

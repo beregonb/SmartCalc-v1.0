@@ -9,10 +9,22 @@
  */
 stack *push(stack *top, const char *c) {
   stack *new = malloc(sizeof(stack));
+  if (new == NULL) {
+    fprintf(stderr, "Memory allocation error in push.\n");
+    exit(EXIT_FAILURE);
+  }
+
   new->str = strdup(c);
+  if (new->str == NULL) {
+    fprintf(stderr, "Memory allocation error in strdup.\n");
+    free(new);  // Освобождаем новый узел перед выходом
+    exit(EXIT_FAILURE);
+  }
+
   new->next = top;
   return new;
 }
+
 /**
  * @brief Удалдение верхнего элемента стека
  *
@@ -20,13 +32,8 @@ stack *push(stack *top, const char *c) {
  * @return stack*
  */
 stack *pop(stack *top) {
-  if (top == NULL) {
+    free_stack_top(&top);
     return top;
-  }
-  stack *new_top = top->next;
-  free(top);
-
-  return new_top;
 }
 
 /**
@@ -48,7 +55,7 @@ char *peek(const stack *top) {
  * @brief Проверка стека на пустоту
  *
  * @param top
- * @return int
+ * @return 1 - пустой, 0 - не пустой
  */
 int isEmpty(const stack *top) {
   if (top == NULL) {
@@ -77,4 +84,13 @@ void destroy(stack **top) {
   clear(top);
   free(*top);
   *top = NULL;
+}
+
+void free_stack_top(stack **top) {
+    if (*top != NULL) {
+        stack *temp = *top;
+        *top = (*top)->next;
+        free(temp->str);  // Освобождаем память для строки
+        free(temp);       // Освобождаем узел
+    }
 }

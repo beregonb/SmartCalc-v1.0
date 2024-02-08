@@ -14,5 +14,6 @@ char *peek(const stack *top);
 int isEmpty(const stack *top);
 void clear(stack **top);
 void destroy(stack **top);
+void free_stack_top(stack **top);
 
 #endif

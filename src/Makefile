@@ -6,7 +6,7 @@ all:
 
 clean:
 	rm *.out
-	rm *.gc
+	rm *.gch
 
 
 style:

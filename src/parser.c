@@ -24,12 +24,15 @@ void readLine(char **str) {
 }
 
 void memory_out(in_out *myStruct) {
-  myStruct->out = malloc((strlen(myStruct->in) + 1) * sizeof(char));
+  myStruct->out = malloc(((strlen(myStruct->in) * 2) + 1) * sizeof(char));
   if (myStruct->out == NULL) {
     fprintf(stderr, "Memory allocation error.\n");
     free(myStruct->in);  // Освобождение памяти, если произошла ошибка
     exit(EXIT_FAILURE);
   }
+
+  // Инициализация строки out
+  strcpy(myStruct->out, "");
 }
 
 void parser(in_out *myStruct) {
@@ -62,7 +65,9 @@ void parser(in_out *myStruct) {
     }
   }
   myStruct->out[lenght_out] = '\0';
+  destroy(&str);
 }
+
 void operand(in_out *myStruct, int *i, int *lenght_out) {
   int start = *i;
   while (isdigit(myStruct->in[*i]) || myStruct->in[*i] == '.' ||
@@ -214,3 +219,4 @@ void push_stack_priority(stack **top, in_out *myStruct, char *stack,
     *top = push(*top, stack);
   }
 }
+

@@ -4,3 +4,4 @@ src/stack.h.gch
 src/main.c
 src/test.c
 src/*.gch
+src/*.txt
