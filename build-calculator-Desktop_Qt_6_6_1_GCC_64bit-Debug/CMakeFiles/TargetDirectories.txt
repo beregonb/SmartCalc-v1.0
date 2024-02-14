@@ -1,0 +1,9 @@
+/home/bergonb/Documents/beregonb/SimpeCalc_v1.0/build-calculator-Desktop_Qt_6_6_1_GCC_64bit-Debug/CMakeFiles/calculator.dir
+/home/bergonb/Documents/beregonb/SimpeCalc_v1.0/build-calculator-Desktop_Qt_6_6_1_GCC_64bit-Debug/CMakeFiles/edit_cache.dir
+/home/bergonb/Documents/beregonb/SimpeCalc_v1.0/build-calculator-Desktop_Qt_6_6_1_GCC_64bit-Debug/CMakeFiles/rebuild_cache.dir
+/home/bergonb/Documents/beregonb/SimpeCalc_v1.0/build-calculator-Desktop_Qt_6_6_1_GCC_64bit-Debug/CMakeFiles/list_install_components.dir
+/home/bergonb/Documents/beregonb/SimpeCalc_v1.0/build-calculator-Desktop_Qt_6_6_1_GCC_64bit-Debug/CMakeFiles/install.dir
+/home/bergonb/Documents/beregonb/SimpeCalc_v1.0/build-calculator-Desktop_Qt_6_6_1_GCC_64bit-Debug/CMakeFiles/install/local.dir
+/home/bergonb/Documents/beregonb/SimpeCalc_v1.0/build-calculator-Desktop_Qt_6_6_1_GCC_64bit-Debug/CMakeFiles/install/strip.dir
+/home/bergonb/Documents/beregonb/SimpeCalc_v1.0/build-calculator-Desktop_Qt_6_6_1_GCC_64bit-Debug/CMakeFiles/calculator_autogen_timestamp_deps.dir
+/home/bergonb/Documents/beregonb/SimpeCalc_v1.0/build-calculator-Desktop_Qt_6_6_1_GCC_64bit-Debug/CMakeFiles/calculator_autogen.dir
