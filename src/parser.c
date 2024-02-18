@@ -1,26 +1,29 @@
 #include "parser.h"
-
-#include <ctype.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 #include "stack.h"
 
-// Функция для чтения строки и выделения памяти
-void readLine(char **str) {
-  size_t bufferSize = 0;
-  size_t bytesRead = getline(str, &bufferSize, stdin);
-
-  if (bytesRead == -1) {
-    fprintf(stderr, "Error reading input.\n");
+void check_length(const char *str, const char *x){
+  if(strlen(str) + strlen(x) > 256){
+    fprintf(stderr, "ERROR");
     exit(EXIT_FAILURE);
   }
+}
 
-  // Убираем символ новой строки, если он был считан
-  if ((*str)[bytesRead - 1] == '\n') {
-    (*str)[bytesRead - 1] = '\0';
+void memory_in(in_out *myStruct, const char *str) {
+  myStruct->in = malloc(strlen(str) + 1); // Выделение памяти под x
+  if (myStruct->in == NULL) {
+    fprintf(stderr, "Memory allocation error.\n");
+    exit(EXIT_FAILURE);
   }
+  strcpy(myStruct->in, str);
+}
+
+void memory_x(in_out *myStruct, const char *x) {
+  myStruct->x = malloc(strlen(x) + 1); // Выделение памяти под x
+  if (myStruct->x == NULL) {
+    fprintf(stderr, "Memory allocation error.\n");
+    exit(EXIT_FAILURE);
+  }
+  strcpy(myStruct->x, x);
 }
 
 void memory_out(in_out *myStruct) {
@@ -47,7 +50,13 @@ void parser(in_out *myStruct) {
     }
     if (isdigit(myStruct->in[i]) || myStruct->in[i] == '.' ||
         myStruct->in[i] == 'x') {
-      operand(myStruct, &i, &lenght_out);
+      if (myStruct->in[i] == 'x') {
+        out_copy(myStruct, myStruct->x, &lenght_out);
+        i++;
+
+      } else {
+        operand(myStruct, &i, &lenght_out);
+      }
       unar = 0;
     } else {
       sign_stack = parser_sign_and_functions(myStruct, &lenght_out, &i, unar);
@@ -219,4 +228,3 @@ void push_stack_priority(stack **top, in_out *myStruct, char *stack,
     *top = push(*top, stack);
   }
 }
-

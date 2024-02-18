@@ -1,9 +1,42 @@
 #include "calculation.h"
-
 #include "parser.h"
 #include "stack.h"
 
-void perser_calc(in_out *myStruct) {
+
+double smart_calculation(const char *str, double x) {
+  double result = 0;
+  in_out myStruct = {NULL, NULL, NULL};
+
+  char buffer[50];
+  snprintf(buffer, sizeof(buffer), "%.2f", x);
+
+  
+
+  check_length(str,buffer);
+
+
+  memory_in(&myStruct, str);
+  printf("!!!%s!!!", buffer);
+  memory_x(&myStruct, buffer);
+  memory_out(&myStruct);
+
+  
+  printf("Input string: %s\n", myStruct.in);
+  printf("Input string х: %s\n", myStruct.x);
+
+  parser(&myStruct);
+  printf("Output string: %s\n", myStruct.out);
+  result = perser_calc(&myStruct);
+  // Освобождение памяти после использования
+  free(myStruct.in);
+  free(myStruct.out);
+  free(myStruct.x);
+
+  return result;
+}
+
+double perser_calc(in_out *myStruct) {
+  double result = 0; 
   stack *str = NULL;
   int i = 0;
   while (myStruct->out[i] != '\0') {
@@ -16,8 +49,9 @@ void perser_calc(in_out *myStruct) {
     }
     i++;
   }
-  printf("%s\n", peek(str));
+  result = strtod(peek(str), NULL);
   destroy(&str);
+  return result;
 }
 
 void calculation(in_out *myStruct, stack **top, int *i) {
@@ -32,7 +66,7 @@ void calculation(in_out *myStruct, stack **top, int *i) {
   char *sign = malloc((length + 1) * sizeof(char));
   strncpy(sign, &myStruct->out[start], length);
   sign[length] = '\0';
-   printf("%s",peek(*top));
+  printf("%s", peek(*top));
   a = strtod(peek(*top), NULL);
   *top = pop(*top);
   printf("sign = %s\n", sign);
@@ -45,7 +79,6 @@ void calculation(in_out *myStruct, stack **top, int *i) {
     result = function_func(a, sign);
     printf("resultUN = %lf\n", result);
   } else {
-    
     b = strtod(peek(*top), NULL);
     printf("a = %lf\n", a);
     printf("b = %lf\n", b);
@@ -60,7 +93,7 @@ void calculation(in_out *myStruct, stack **top, int *i) {
 
 void operand_calc(in_out *myStruct, stack **top, int *i) {
   int start = *i;
-  while (isdigit(myStruct->out[*i]) || myStruct->out[*i] == '.' ||
+  while (isdigit(myStruct->out[*i]) || myStruct->out[*i] == '.' || myStruct->out[*i] == ',' ||
          myStruct->out[*i] == 'x') {
     (*i)++;
   }
@@ -120,23 +153,17 @@ double function_func(double a, char *sign) {
   return result;
 }
 
-int main() {
-  in_out myStruct = {NULL, NULL};
-  printf("Enter input string: ");
-  readLine(&(myStruct.in));
-  memory_out(&myStruct);
 
-  // Выделение памяти и инициализация для строки out (по вашему желанию)
+// int main() {
+//   char str[100];
+//   double x;
+//   double result;
+//   printf("Input x: ");
+//   scanf("%lf", &x);
 
-  printf("Input string: %s\n", myStruct.in);
-
-  parser(&myStruct);
-  printf("Output string: %s\n", myStruct.out);
-  perser_calc(&myStruct);
-
-  // Освобождение памяти после использования
-  free(myStruct.in);
-  free(myStruct.out);
-
-  return 0;
-}
+//   printf("Input expression: ");
+//   scanf("%s", str);
+//   result = smart_calculation(str, x);
+//   printf("РЕЗУЛЬТАТ: %lf", result);
+//   return 0;
+// }

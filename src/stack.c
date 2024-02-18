@@ -32,8 +32,8 @@ stack *push(stack *top, const char *c) {
  * @return stack*
  */
 stack *pop(stack *top) {
-    free_stack_top(&top);
-    return top;
+  free_stack_top(&top);
+  return top;
 }
 
 /**
@@ -87,10 +87,10 @@ void destroy(stack **top) {
 }
 
 void free_stack_top(stack **top) {
-    if (*top != NULL) {
-        stack *temp = *top;
-        *top = (*top)->next;
-        free(temp->str);  // Освобождаем память для строки
-        free(temp);       // Освобождаем узел
-    }
+  if (*top != NULL) {
+    stack *temp = *top;
+    *top = (*top)->next;
+    free(temp->str);  // Освобождаем память для строки
+    free(temp);       // Освобождаем узел
+  }
 }

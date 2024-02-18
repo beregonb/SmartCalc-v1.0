@@ -1,9 +1,16 @@
 #ifndef PARSER_H
 #define PARSER_H
 
+#include <ctype.h>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 typedef struct in_out {
   char *in;
   char *out;
+  char *x;
 } in_out;
 
 typedef struct stack {
@@ -11,8 +18,11 @@ typedef struct stack {
   struct stack *next;
 } stack;
 
-void readLine(char **str);
+void check_length(const char *str, const char *x);
+void memory_in(in_out *myStruct, const char *str);
+void memory_x(in_out *myStruct, const char *str);
 void memory_out(in_out *myStruct);
+
 void parser(in_out *myStruct);
 void out_copy(in_out *myStruct, char *str, int *lenght_out);
 char *parser_sign_and_functions(in_out *myStruct, int *lenght_out,

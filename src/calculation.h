@@ -10,7 +10,9 @@
 #include "parser.h"
 #include "stack.h"
 
-void perser_calc(in_out *myStruct);
+double smart_calculation(const char *str, double x);
+
+double perser_calc(in_out *myStruct);
 void operand_calc(in_out *myStruct, stack **top, int *i);
 double function_func(double a, char *sign);
 double function_math(double a, double b, char *sign);
