@@ -56,7 +56,7 @@ background-color : white;
 </string>
     </property>
     <property name="text">
-     <string>0</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_7">
@@ -302,13 +302,21 @@ QPushButton:pressed {
   color: white; 
 }
 
+QPushButton:checked { 
+background-color:rgb(255, 120, 0);
+}
+
 QPushButton:pressed {
     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
                                       stop: 0 #FF7832, stop: 1 #FF9739);
-}</string>
+}
+</string>
     </property>
     <property name="text">
      <string>+</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_minus">
@@ -326,13 +334,21 @@ QPushButton:pressed {
   color: white; 
 }
 
+QPushButton:checked { 
+background-color:rgb(255, 120, 0);
+}
+
 QPushButton:pressed {
     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
                                       stop: 0 #FF7832, stop: 1 #FF9739);
-}</string>
+}
+</string>
     </property>
     <property name="text">
      <string>-</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_multiply">
@@ -350,13 +366,21 @@ QPushButton:pressed {
   color: white; 
 }
 
+QPushButton:checked { 
+background-color:rgb(255, 120, 0);
+}
+
 QPushButton:pressed {
     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
                                       stop: 0 #FF7832, stop: 1 #FF9739);
-}</string>
+}
+</string>
     </property>
     <property name="text">
      <string>*</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_dot">
@@ -452,16 +476,25 @@ QPushButton:pressed {
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton {
-  background-color: rgb(192, 191, 188);
-  color: black;
+  background-color: rgb(28, 113, 216);
+  color: white; 
 }
+
+QPushButton:checked { 
+background-color:rgb(255, 120, 0);
+}
+
 QPushButton:pressed {
     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                      stop: 0 #BEBEBE, stop: 1 #D7D7D7);
-}</string>
+                                      stop: 0 #FF7832, stop: 1 #FF9739);
+}
+</string>
     </property>
     <property name="text">
      <string>^</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_del">
@@ -502,13 +535,21 @@ QPushButton:pressed {
   color: white; 
 }
 
+QPushButton:checked { 
+background-color:rgb(255, 120, 0);
+}
+
 QPushButton:pressed {
     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
                                       stop: 0 #FF7832, stop: 1 #FF9739);
-}</string>
+}
+</string>
     </property>
     <property name="text">
      <string>/</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_tan">
@@ -574,13 +615,21 @@ QPushButton:pressed {
   color: white; 
 }
 
+QPushButton:checked { 
+background-color:rgb(255, 120, 0);
+}
+
 QPushButton:pressed {
     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
                                       stop: 0 #FF7832, stop: 1 #FF9739);
-}</string>
+}
+</string>
     </property>
     <property name="text">
      <string>mod</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_asin">
@@ -844,7 +893,39 @@ QPushButton:pressed {
      <string>(</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QPushButton" name="pushButton_plus_and_minus">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>70</y>
+      <width>51</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+  background-color: rgb(28, 113, 216);
+  color: white; 
+}
+
+QPushButton:checked { 
+background-color:rgb(255, 120, 0);
+}
+
+QPushButton:pressed {
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #FF7832, stop: 1 #FF9739);
+}
+</string>
+    </property>
+    <property name="text">
+     <string>+/-</string>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_x">
     <property name="geometry">
      <rect>
       <x>90</x>
@@ -859,42 +940,15 @@ QPushButton:pressed {
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">QLabel {
-  qproperty-alignment: 'AlignVCenter | AlignRight';
-  border: 1px solid gray;
-	color: rgb(0, 0, 0);
-}
-
-QLabel {
-background-color : white;
-}
-</string>
-    </property>
-    <property name="text">
-     <string>0</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_plus_and_minus">
-    <property name="geometry">
-     <rect>
-      <x>320</x>
-      <y>70</y>
-      <width>51</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton {
-  background-color: rgb(192, 191, 188);
-  color: black;
-}
-QPushButton:pressed {
-    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                      stop: 0 #BEBEBE, stop: 1 #D7D7D7);
+     <string notr="true">QLineEdit {
+		background-color: #F0F0F0;
+		border: 1px solid #707070;
+		padding: 2px;
+		color: #333333;
 }</string>
     </property>
     <property name="text">
-     <string>+/-</string>
+     <string/>
     </property>
    </widget>
   </widget>

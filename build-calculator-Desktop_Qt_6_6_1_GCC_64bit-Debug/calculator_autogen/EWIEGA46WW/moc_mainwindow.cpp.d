@@ -1,5 +1,6 @@
 /home/bergonb/Documents/beregonb/SimpeCalc_v1.0/build-calculator-Desktop_Qt_6_6_1_GCC_64bit-Debug/calculator_autogen/EWIEGA46WW/moc_mainwindow.cpp: /home/bergonb/Documents/beregonb/SimpeCalc_v1.0/calculator/mainwindow.h \
   /home/bergonb/Documents/beregonb/SimpeCalc_v1.0/build-calculator-Desktop_Qt_6_6_1_GCC_64bit-Debug/calculator_autogen/moc_predefs.h \
+  /opt/Qt/6.6.1/gcc_64/include/QtCore/QRegularExpression \
   /opt/Qt/6.6.1/gcc_64/include/QtCore/q20functional.h \
   /opt/Qt/6.6.1/gcc_64/include/QtCore/q20memory.h \
   /opt/Qt/6.6.1/gcc_64/include/QtCore/q20type_traits.h \
@@ -68,6 +69,7 @@
   /opt/Qt/6.6.1/gcc_64/include/QtCore/qprocessordetection.h \
   /opt/Qt/6.6.1/gcc_64/include/QtCore/qrect.h \
   /opt/Qt/6.6.1/gcc_64/include/QtCore/qrefcount.h \
+  /opt/Qt/6.6.1/gcc_64/include/QtCore/qregularexpression.h \
   /opt/Qt/6.6.1/gcc_64/include/QtCore/qscopedpointer.h \
   /opt/Qt/6.6.1/gcc_64/include/QtCore/qscopeguard.h \
   /opt/Qt/6.6.1/gcc_64/include/QtCore/qset.h \
