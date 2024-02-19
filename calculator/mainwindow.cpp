@@ -46,6 +46,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->pushButton_open, SIGNAL(clicked()), this, SLOT(skobki()));
     connect(ui->pushButton_close, SIGNAL(clicked()), this, SLOT(skobki()));
 
+    //grahp
+    connect(ui->pushButton_graphics, SIGNAL(clicked()), this, SLOT(Graph()));
+
 
 }
 
@@ -70,7 +73,7 @@ void MainWindow::digits_numbers()
         out += button->text();
     }
 
-
+    unar_bool = true;
 
     if(ui->pushButton_plus->isChecked() ||
        ui->pushButton_minus->isChecked() ||
@@ -96,6 +99,7 @@ void MainWindow::digits_numbers()
 
     waitingForOperand = false;
     off();
+    ui->label_out->setText(out);
 }
 
 void MainWindow::on_pushButton_dot_clicked()
@@ -104,6 +108,7 @@ void MainWindow::on_pushButton_dot_clicked()
         ui->result_show->setText(ui->result_show->text() + ".");
         out += ".";
     }
+    ui->label_out->setText(out);
 }
 
 void MainWindow::operations()
@@ -145,7 +150,7 @@ void MainWindow::operations()
             } else {
                 unar_bool = true;
                 ui->result_show->setText(buffer_two);
-                buffer_two = buffer;
+                buffer = buffer_two;
 
             }
 
@@ -171,6 +176,10 @@ void MainWindow::math_operations()
     }
 
     button->setChecked(true);
+    if(trigonom){
+        unar_bool = true;// так работает синус
+    }
+
     znak_mass = "";
     if(unar_bool){
         znak_mass += button->text();
@@ -181,7 +190,7 @@ void MainWindow::math_operations()
         } else {
             znak_mass += "*(-1)" + button->text();
         }
-        unar_bool = true;
+
     }
     if(skobkiFlag){
         buffer += znak_mass;
@@ -205,17 +214,12 @@ void MainWindow::math_operations()
     if(!skobkiFlag){
         znack = true;
     }
+    ui->label_out->setText(out);
 }
 
 
 void MainWindow::on_pushButton_del_clicked()
 {
-    QString new_lable;
-
-    new_lable = "";
-    ui->result_show->setText(new_lable);
-    ui->lineEdit_x->setText(new_lable);
-
     out = "";
     buffer = "";
     znak_mass = "";
@@ -225,17 +229,22 @@ void MainWindow::on_pushButton_del_clicked()
     skobkiFlag = false;
     unar_bool = true;
     znack = false;
+    trigonom = false;
 
     i = 0;
 
     off();
+    ui->result_show->setText(out);
+    ui->label_out->setText(out);
+    ui->lineEdit_x->setText(out);
+
 }
 
 void MainWindow::thrig_operations()
 {
     QPushButton *button = (QPushButton *)sender();
     QString new_lable;
-
+    trigonom = true;
     if(znack){
         out += znak_mass;
         znack = false;
@@ -254,6 +263,7 @@ void MainWindow::thrig_operations()
     }
     i++;
     ui->result_show->setText(new_lable);
+    ui->label_out->setText(out);
 }
 
  void MainWindow::skobki()
@@ -263,6 +273,7 @@ void MainWindow::thrig_operations()
      if(button->text() == ")"){
          i--;
          if(i == 0){
+            trigonom = false;
             skobkiFlag = false;
              out += buffer + button->text();
          }
@@ -284,6 +295,7 @@ void MainWindow::thrig_operations()
      if(!skobkiFlag && i == 0){
          buffer = "";
      }
+     ui->label_out->setText(out);
 
 }
 
@@ -314,12 +326,13 @@ void MainWindow::on_pushButton_x_clicked()
 
     if(skobkiFlag){
         buffer += "x";
-        out += "x";
+
         ui->result_show->setText(ui->result_show->text()+ znak_mass + "x");
     } else {
         ui->result_show->setText("x");
         out += "x";
     }
+    ui->label_out->setText(out);
 }
 
 void MainWindow::on_pushButton_equals_clicked()
@@ -328,10 +341,10 @@ void MainWindow::on_pushButton_equals_clicked()
         out += "*(-1)";
         unar_bool = true;
     }
+    ui->label_out->setText(out);
     ui->result_show->setText(out);
 
     double x = ui->lineEdit_x->text().toDouble();
-    ui->lineEdit_x->setText("");
     const char *str = out.toUtf8().constData();
     double result = 0; //функция си
 
@@ -342,3 +355,49 @@ void MainWindow::on_pushButton_equals_clicked()
 }
 
 
+
+void MainWindow::on_pushButton_graphics_clicked()
+{
+
+}
+
+void MainWindow::TimerSlot()
+{
+
+}
+
+void MainWindow:: Graph()
+{
+
+    double x_min = ui->Xmin->value();
+    double x_max = ui->Xmax->value();
+    double y_min = ui->Ymin->value();
+    double y_max = ui->Ymax->value();
+    ui->widget->xAxis->setRange(x_min,x_max);
+    ui->widget->yAxis->setRange(y_min,y_max);
+
+    double delta = 0.1;
+
+    if(!unar_bool){
+        out += "*(-1)";
+        unar_bool = true;
+    }
+
+    QByteArray ba = out.toLocal8Bit();
+    char *str = ba.data();
+    double y_res = 0; //функция си
+
+    for(double i = -50; i <= 50; (i += delta)){
+        x.push_back(i);
+        printf("%lf %s\n", i, str);
+        y_res = smart_calculation(str, i);
+        y.push_back(y_res);
+    }
+
+    ui->widget->addGraph();
+    ui->widget->graph(0)->addData(x,y);
+    ui->widget->replot();
+    x.clear();
+    y.clear();
+    ui->widget->graph(0)->data()->clear();
+}

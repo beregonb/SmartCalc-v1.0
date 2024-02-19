@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QRegularExpression>
+#include <QVector>
+#include <QTimer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -26,11 +28,19 @@ public:
     bool skobkiFlag = false;
     bool unar_bool = true;
     bool znack = false;
+    bool trigonom = false;
 
     int i = 0;
+    int minus_unar = 0;
 
 private:
     Ui::MainWindow *ui;
+    double xBegin, xEnd, h, X;
+    int N;
+
+    QVector<double> x,y;
+    QTimer *timer;
+    int time;
 
 
 private slots:
@@ -43,6 +53,9 @@ private slots:
     void skobki();
     void operations();
     void off();
+    void Graph();
     void on_pushButton_x_clicked();
+    void on_pushButton_graphics_clicked();
+    void TimerSlot();
 };
 #endif // MAINWINDOW_H

@@ -1,6 +1,8 @@
 /home/bergonb/Documents/beregonb/SimpeCalc_v1.0/build-calculator-Desktop_Qt_6_6_1_GCC_64bit-Debug/calculator_autogen/EWIEGA46WW/moc_mainwindow.cpp: /home/bergonb/Documents/beregonb/SimpeCalc_v1.0/calculator/mainwindow.h \
   /home/bergonb/Documents/beregonb/SimpeCalc_v1.0/build-calculator-Desktop_Qt_6_6_1_GCC_64bit-Debug/calculator_autogen/moc_predefs.h \
   /opt/Qt/6.6.1/gcc_64/include/QtCore/QRegularExpression \
+  /opt/Qt/6.6.1/gcc_64/include/QtCore/QTimer \
+  /opt/Qt/6.6.1/gcc_64/include/QtCore/QVector \
   /opt/Qt/6.6.1/gcc_64/include/QtCore/q20functional.h \
   /opt/Qt/6.6.1/gcc_64/include/QtCore/q20memory.h \
   /opt/Qt/6.6.1/gcc_64/include/QtCore/q20type_traits.h \
@@ -14,6 +16,7 @@
   /opt/Qt/6.6.1/gcc_64/include/QtCore/qatomic.h \
   /opt/Qt/6.6.1/gcc_64/include/QtCore/qatomic_cxx11.h \
   /opt/Qt/6.6.1/gcc_64/include/QtCore/qbasicatomic.h \
+  /opt/Qt/6.6.1/gcc_64/include/QtCore/qbasictimer.h \
   /opt/Qt/6.6.1/gcc_64/include/QtCore/qbindingstorage.h \
   /opt/Qt/6.6.1/gcc_64/include/QtCore/qbytearray.h \
   /opt/Qt/6.6.1/gcc_64/include/QtCore/qbytearrayalgorithms.h \
@@ -100,6 +103,7 @@
   /opt/Qt/6.6.1/gcc_64/include/QtCore/qtdeprecationmarkers.h \
   /opt/Qt/6.6.1/gcc_64/include/QtCore/qtenvironmentvariables.h \
   /opt/Qt/6.6.1/gcc_64/include/QtCore/qtextstream.h \
+  /opt/Qt/6.6.1/gcc_64/include/QtCore/qtimer.h \
   /opt/Qt/6.6.1/gcc_64/include/QtCore/qtmetamacros.h \
   /opt/Qt/6.6.1/gcc_64/include/QtCore/qtnoop.h \
   /opt/Qt/6.6.1/gcc_64/include/QtCore/qtpreprocessorsupport.h \
@@ -113,6 +117,7 @@
   /opt/Qt/6.6.1/gcc_64/include/QtCore/qutf8stringview.h \
   /opt/Qt/6.6.1/gcc_64/include/QtCore/qvariant.h \
   /opt/Qt/6.6.1/gcc_64/include/QtCore/qvarlengtharray.h \
+  /opt/Qt/6.6.1/gcc_64/include/QtCore/qvector.h \
   /opt/Qt/6.6.1/gcc_64/include/QtCore/qversiontagging.h \
   /opt/Qt/6.6.1/gcc_64/include/QtCore/qxptype_traits.h \
   /opt/Qt/6.6.1/gcc_64/include/QtGui/qaction.h \

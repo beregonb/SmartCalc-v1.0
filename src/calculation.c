@@ -1,7 +1,7 @@
 #include "calculation.h"
+
 #include "parser.h"
 #include "stack.h"
-
 
 double smart_calculation(const char *str, double x) {
   double result = 0;
@@ -10,23 +10,19 @@ double smart_calculation(const char *str, double x) {
   char buffer[50];
   snprintf(buffer, sizeof(buffer), "%.2f", x);
 
-  
-
-  check_length(str,buffer);
-
+  check_length(str, buffer);
 
   memory_in(&myStruct, str);
   printf("!!!%s!!!", buffer);
   memory_x(&myStruct, buffer);
   memory_out(&myStruct);
 
-  
   printf("Input string: %s\n", myStruct.in);
   printf("Input string х: %s\n", myStruct.x);
 
   parser(&myStruct);
   printf("Output string: %s\n", myStruct.out);
-  result = perser_calc(&myStruct);
+  result = perser_calc(&myStruct, x);
   // Освобождение памяти после использования
   free(myStruct.in);
   free(myStruct.out);
@@ -35,17 +31,17 @@ double smart_calculation(const char *str, double x) {
   return result;
 }
 
-double perser_calc(in_out *myStruct) {
-  double result = 0; 
+double perser_calc(in_out *myStruct, double x) {
+  double result = 0;
   stack *str = NULL;
   int i = 0;
   while (myStruct->out[i] != '\0') {
-    if (isdigit(myStruct->out[i])) {
+    if (isdigit(myStruct->out[i]) || myStruct->out[i] == 'x') {
       operand_calc(myStruct, &str, &i);
       printf("top - %s\n", peek(str));
     } else {
       printf("зашел\n");
-      calculation(myStruct, &str, &i);
+      calculation(myStruct, &str, &i, x);
     }
     i++;
   }
@@ -54,7 +50,7 @@ double perser_calc(in_out *myStruct) {
   return result;
 }
 
-void calculation(in_out *myStruct, stack **top, int *i) {
+void calculation(in_out *myStruct, stack **top, int *i, double x) {
   //разделить на унарные и бинарные рассчеты
   int start = *i;
   double a, b, result;
@@ -67,7 +63,12 @@ void calculation(in_out *myStruct, stack **top, int *i) {
   strncpy(sign, &myStruct->out[start], length);
   sign[length] = '\0';
   printf("%s", peek(*top));
-  a = strtod(peek(*top), NULL);
+  if (strcmp(peek(*top), "x") == 0) {
+    a = x;
+
+  } else {
+    a = strtod(peek(*top), NULL);
+  }
   *top = pop(*top);
   printf("sign = %s\n", sign);
   if (strcmp(sign, "C") == 0 || strcmp(sign, "S") == 0 ||
@@ -93,8 +94,8 @@ void calculation(in_out *myStruct, stack **top, int *i) {
 
 void operand_calc(in_out *myStruct, stack **top, int *i) {
   int start = *i;
-  while (isdigit(myStruct->out[*i]) || myStruct->out[*i] == '.' || myStruct->out[*i] == ',' ||
-         myStruct->out[*i] == 'x') {
+  while (isdigit(myStruct->out[*i]) || myStruct->out[*i] == '.' ||
+         myStruct->out[*i] == ',' || myStruct->out[*i] == 'x') {
     (*i)++;
   }
   int length = *i - start;
@@ -153,17 +154,12 @@ double function_func(double a, char *sign) {
   return result;
 }
 
-
 // int main() {
-//   char str[100];
-//   double x;
+//   double x = 1;
+//   char str[] = "8*-(-1)+9";
 //   double result;
-//   printf("Input x: ");
-//   scanf("%lf", &x);
-
-//   printf("Input expression: ");
-//   scanf("%s", str);
 //   result = smart_calculation(str, x);
 //   printf("РЕЗУЛЬТАТ: %lf", result);
+
 //   return 0;
 // }

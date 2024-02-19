@@ -3,7 +3,6 @@
 
 #include "parser.h"
 
-
 //строки
 stack *push(stack *top, const char *c);
 stack *pop(stack *top);

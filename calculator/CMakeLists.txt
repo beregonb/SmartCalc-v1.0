@@ -11,15 +11,22 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets PrintSupport)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets PrintSupport)
+
+# Добавьте путь к заголовочным файлам QCustomPlot
+include_directories(qcustomplot)
 
 set(PROJECT_SOURCES
-        main.cpp
-        mainwindow.cpp
-        mainwindow.h
-        mainwindow.ui
-        ../src/calculation.c
-        ../src/parser.c
-        ../src/stack.c
+    main.cpp
+    mainwindow.cpp
+    mainwindow.h
+    mainwindow.ui
+    ../src/calculation.c
+    ../src/parser.c
+    ../src/stack.c
+    qcustomplot/qcustomplot.h
+    qcustomplot/qcustomplot.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -39,7 +46,7 @@ else()
     endif()
 endif()
 
-target_link_libraries(calculator PRIVATE Qt${QT_VERSION_MAJOR}::Widgets m)
+target_link_libraries(calculator PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt6::PrintSupport m)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an

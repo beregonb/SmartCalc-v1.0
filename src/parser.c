@@ -1,15 +1,16 @@
 #include "parser.h"
+
 #include "stack.h"
 
-void check_length(const char *str, const char *x){
-  if(strlen(str) + strlen(x) > 256){
+void check_length(const char *str, const char *x) {
+  if (strlen(str) + strlen(x) > 256) {
     fprintf(stderr, "ERROR");
     exit(EXIT_FAILURE);
   }
 }
 
 void memory_in(in_out *myStruct, const char *str) {
-  myStruct->in = malloc(strlen(str) + 1); // Выделение памяти под x
+  myStruct->in = malloc(strlen(str) + 1);  // Выделение памяти под x
   if (myStruct->in == NULL) {
     fprintf(stderr, "Memory allocation error.\n");
     exit(EXIT_FAILURE);
@@ -18,7 +19,7 @@ void memory_in(in_out *myStruct, const char *str) {
 }
 
 void memory_x(in_out *myStruct, const char *x) {
-  myStruct->x = malloc(strlen(x) + 1); // Выделение памяти под x
+  myStruct->x = malloc(strlen(x) + 1);  // Выделение памяти под x
   if (myStruct->x == NULL) {
     fprintf(stderr, "Memory allocation error.\n");
     exit(EXIT_FAILURE);
@@ -50,18 +51,22 @@ void parser(in_out *myStruct) {
     }
     if (isdigit(myStruct->in[i]) || myStruct->in[i] == '.' ||
         myStruct->in[i] == 'x') {
-      if (myStruct->in[i] == 'x') {
-        out_copy(myStruct, myStruct->x, &lenght_out);
-        i++;
-
-      } else {
-        operand(myStruct, &i, &lenght_out);
-      }
+      operand(myStruct, &i, &lenght_out);
       unar = 0;
     } else {
       sign_stack = parser_sign_and_functions(myStruct, &lenght_out, &i, unar);
       if (sign_stack != NULL) {
         push_stack_priority(&str, myStruct, sign_stack, &lenght_out);
+        if (myStruct->in[i] == '-' && myStruct->in[i - 1] != ')') {
+          out_copy(myStruct, "0", &lenght_out);
+          str = push(str, "-");
+          i++;
+        }
+        if (myStruct->in[i] == '+'&& myStruct->in[i - 1] != ')') {
+          out_copy(myStruct, "0", &lenght_out);
+          str = push(str, "-");
+          i++;
+        }
       }
     }
   }
@@ -80,7 +85,7 @@ void parser(in_out *myStruct) {
 void operand(in_out *myStruct, int *i, int *lenght_out) {
   int start = *i;
   while (isdigit(myStruct->in[*i]) || myStruct->in[*i] == '.' ||
-         myStruct->in[*i] == 'x') {
+         myStruct->in[*i] == ',' || myStruct->in[*i] == 'x') {
     (*i)++;
   }
   int length = *i - start;
