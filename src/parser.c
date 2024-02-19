@@ -1,35 +1,42 @@
 #include "parser.h"
 
-#include <ctype.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 #include "stack.h"
 
-// Функция для чтения строки и выделения памяти
-void readLine(char **str) {
-  size_t bufferSize = 0;
-  size_t bytesRead = getline(str, &bufferSize, stdin);
-
-  if (bytesRead == -1) {
-    fprintf(stderr, "Error reading input.\n");
+void check_length(const char *str, const char *x) {
+  if (strlen(str) + strlen(x) > 256) {
+    fprintf(stderr, "ERROR");
     exit(EXIT_FAILURE);
-  }
-
-  // Убираем символ новой строки, если он был считан
-  if ((*str)[bytesRead - 1] == '\n') {
-    (*str)[bytesRead - 1] = '\0';
   }
 }
 
+void memory_in(in_out *myStruct, const char *str) {
+  myStruct->in = malloc(strlen(str) + 1);  // Выделение памяти под x
+  if (myStruct->in == NULL) {
+    fprintf(stderr, "Memory allocation error.\n");
+    exit(EXIT_FAILURE);
+  }
+  strcpy(myStruct->in, str);
+}
+
+void memory_x(in_out *myStruct, const char *x) {
+  myStruct->x = malloc(strlen(x) + 1);  // Выделение памяти под x
+  if (myStruct->x == NULL) {
+    fprintf(stderr, "Memory allocation error.\n");
+    exit(EXIT_FAILURE);
+  }
+  strcpy(myStruct->x, x);
+}
+
 void memory_out(in_out *myStruct) {
-  myStruct->out = malloc((strlen(myStruct->in) + 1) * sizeof(char));
+  myStruct->out = malloc(((strlen(myStruct->in) * 2) + 1) * sizeof(char));
   if (myStruct->out == NULL) {
     fprintf(stderr, "Memory allocation error.\n");
     free(myStruct->in);  // Освобождение памяти, если произошла ошибка
     exit(EXIT_FAILURE);
   }
+
+  // Инициализация строки out
+  strcpy(myStruct->out, "");
 }
 
 void parser(in_out *myStruct) {
@@ -37,13 +44,29 @@ void parser(in_out *myStruct) {
   int i = 0;
   int lenght_out = 0;
   char *sign_stack = NULL;
+  int unar = 1;
   while (myStruct->in[i] != '\0') {
-    if (isdigit(myStruct->in[i])) {
+    if (myStruct->in[i] == '(') {
+      unar = 1;
+    }
+    if (isdigit(myStruct->in[i]) || myStruct->in[i] == '.' ||
+        myStruct->in[i] == 'x') {
       operand(myStruct, &i, &lenght_out);
+      unar = 0;
     } else {
-      sign_stack = parser_sign_and_functions(myStruct, &lenght_out, &i);
+      sign_stack = parser_sign_and_functions(myStruct, &lenght_out, &i, unar);
       if (sign_stack != NULL) {
         push_stack_priority(&str, myStruct, sign_stack, &lenght_out);
+        if (myStruct->in[i] == '-' && myStruct->in[i - 1] != ')') {
+          out_copy(myStruct, "0", &lenght_out);
+          str = push(str, "-");
+          i++;
+        }
+        if (myStruct->in[i] == '+'&& myStruct->in[i - 1] != ')') {
+          out_copy(myStruct, "0", &lenght_out);
+          str = push(str, "-");
+          i++;
+        }
       }
     }
   }
@@ -55,10 +78,14 @@ void parser(in_out *myStruct) {
       str = pop(str);
     }
   }
+  myStruct->out[lenght_out] = '\0';
+  destroy(&str);
 }
+
 void operand(in_out *myStruct, int *i, int *lenght_out) {
   int start = *i;
-  while (isdigit(myStruct->in[*i])) {
+  while (isdigit(myStruct->in[*i]) || myStruct->in[*i] == '.' ||
+         myStruct->in[*i] == ',' || myStruct->in[*i] == 'x') {
     (*i)++;
   }
   int length = *i - start;
@@ -86,15 +113,21 @@ void out_copy(in_out *myStruct, char *str, int *lenght_out) {
 }
 
 char *parser_sign_and_functions(in_out *myStruct, int *lenght_out,
-                                int *lenght_in) {
+                                int *lenght_in, int unar) {
   char *sign = NULL;
   if (strchr("+-*/m^cstal()", myStruct->in[*lenght_in]) != NULL) {
     if (strchr("+-*/^()", myStruct->in[*lenght_in]) != NULL) {
       if (myStruct->in[*lenght_in] == '^') {
         sign = "^";
       } else if (myStruct->in[*lenght_in] == '+') {
+        if (unar == 1) {
+          out_copy(myStruct, "0", lenght_out);
+        }
         sign = "+";
       } else if (myStruct->in[*lenght_in] == '-') {
+        if (unar == 1) {
+          out_copy(myStruct, "0", lenght_out);
+        }
         sign = "-";
       } else if (myStruct->in[*lenght_in] == '*') {
         sign = "*";
@@ -165,7 +198,7 @@ int priority(char *stack) {
   } else if (strcmp(stack, "*") == 0 || strcmp(stack, "/") == 0 ||
              strcmp(stack, "m") == 0) {
     prior = 2;
-  } else if (strcmp(stack, "^") == 0) {
+  } else if (strcmp(stack, "^") == 0 || strcmp(stack, "~") == 0) {
     prior = 3;
   } else if (strcmp(stack, "C") == 0 || strcmp(stack, "S") == 0 ||
              strcmp(stack, "q") == 0 || strcmp(stack, "T") == 0 ||
@@ -199,25 +232,4 @@ void push_stack_priority(stack **top, in_out *myStruct, char *stack,
     }
     *top = push(*top, stack);
   }
-}
-
-int main() {
-  in_out myStruct;
-
-  printf("Enter input string: ");
-  readLine(&(myStruct.in));
-  memory_out(&myStruct);
-
-  // Выделение памяти и инициализация для строки out (по вашему желанию)
-
-  printf("Input string: %s\n", myStruct.in);
-
-  parser(&myStruct);
-  printf("Output string: %s\n", myStruct.out);
-
-  // Освобождение памяти после использования
-  free(myStruct.in);
-  free(myStruct.out);
-
-  return 0;
 }
