@@ -63,15 +63,15 @@ public:
     QPushButton *pushButton_plus_and_minus;
     QLineEdit *lineEdit_x;
     QCustomPlot *widget;
-    QDoubleSpinBox *Xmin;
-    QDoubleSpinBox *Xmax;
     QDoubleSpinBox *Ymin;
     QDoubleSpinBox *Ymax;
-    QLabel *label;
     QLabel *label_2;
-    QLabel *label_3;
     QLabel *label_4;
     QLabel *label_out;
+    QDoubleSpinBox *Xmin;
+    QLabel *label_3;
+    QLabel *label;
+    QDoubleSpinBox *Xmax;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -79,7 +79,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName("MainWindow");
-        MainWindow->resize(1132, 568);
+        MainWindow->resize(1127, 439);
         QFont font;
         font.setPointSize(13);
         MainWindow->setFont(font);
@@ -564,29 +564,9 @@ public:
         widget = new QCustomPlot(centralwidget);
         widget->setObjectName("widget");
         widget->setGeometry(QRect(650, 0, 471, 391));
-        Xmin = new QDoubleSpinBox(centralwidget);
-        Xmin->setObjectName("Xmin");
-        Xmin->setGeometry(QRect(570, 280, 71, 51));
-        Xmin->setStyleSheet(QString::fromUtf8("QDoubleSpinBox {\n"
-"		background-color: #F0F0F0;\n"
-"		color: #333333;\n"
-"}"));
-        Xmin->setMinimum(-50.000000000000000);
-        Xmin->setMaximum(50.000000000000000);
-        Xmin->setValue(-5.000000000000000);
-        Xmax = new QDoubleSpinBox(centralwidget);
-        Xmax->setObjectName("Xmax");
-        Xmax->setGeometry(QRect(570, 160, 71, 51));
-        Xmax->setStyleSheet(QString::fromUtf8("QDoubleSpinBox {\n"
-"		background-color: #F0F0F0;\n"
-"		color: #333333;\n"
-"}"));
-        Xmax->setMinimum(-50.000000000000000);
-        Xmax->setMaximum(50.000000000000000);
-        Xmax->setValue(5.000000000000000);
         Ymin = new QDoubleSpinBox(centralwidget);
         Ymin->setObjectName("Ymin");
-        Ymin->setGeometry(QRect(490, 280, 71, 51));
+        Ymin->setGeometry(QRect(570, 280, 71, 51));
         Ymin->setStyleSheet(QString::fromUtf8("QDoubleSpinBox {\n"
 "		background-color: #F0F0F0;\n"
 "		color: #333333;\n"
@@ -596,7 +576,7 @@ public:
         Ymin->setValue(-5.000000000000000);
         Ymax = new QDoubleSpinBox(centralwidget);
         Ymax->setObjectName("Ymax");
-        Ymax->setGeometry(QRect(490, 160, 71, 51));
+        Ymax->setGeometry(QRect(570, 160, 71, 51));
         Ymax->setStyleSheet(QString::fromUtf8("QDoubleSpinBox {\n"
 "		background-color: #F0F0F0;\n"
 "		color: #333333;\n"
@@ -604,29 +584,17 @@ public:
         Ymax->setMinimum(-50.000000000000000);
         Ymax->setMaximum(50.000000000000000);
         Ymax->setValue(5.000000000000000);
-        label = new QLabel(centralwidget);
-        label->setObjectName("label");
-        label->setGeometry(QRect(570, 220, 71, 51));
-        QFont font3;
-        font3.setPointSize(16);
-        label->setFont(font3);
-        label->setStyleSheet(QString::fromUtf8("QLable{\n"
-"  color: white; }"));
         label_2 = new QLabel(centralwidget);
         label_2->setObjectName("label_2");
-        label_2->setGeometry(QRect(480, 220, 81, 51));
+        label_2->setGeometry(QRect(560, 220, 81, 51));
+        QFont font3;
+        font3.setPointSize(16);
         label_2->setFont(font3);
         label_2->setStyleSheet(QString::fromUtf8("QLable{\n"
 "  color: white; }"));
-        label_3 = new QLabel(centralwidget);
-        label_3->setObjectName("label_3");
-        label_3->setGeometry(QRect(570, 100, 71, 51));
-        label_3->setFont(font3);
-        label_3->setStyleSheet(QString::fromUtf8("QLable{\n"
-"  color: white; }"));
         label_4 = new QLabel(centralwidget);
         label_4->setObjectName("label_4");
-        label_4->setGeometry(QRect(480, 100, 81, 51));
+        label_4->setGeometry(QRect(560, 100, 81, 51));
         label_4->setFont(font3);
         label_4->setStyleSheet(QString::fromUtf8("QLable{\n"
 "  color: white; }"));
@@ -643,10 +611,42 @@ public:
 "background-color : white;\n"
 "}\n"
 ""));
+        Xmin = new QDoubleSpinBox(centralwidget);
+        Xmin->setObjectName("Xmin");
+        Xmin->setGeometry(QRect(490, 280, 71, 51));
+        Xmin->setStyleSheet(QString::fromUtf8("QDoubleSpinBox {\n"
+"		background-color: #F0F0F0;\n"
+"		color: #333333;\n"
+"}"));
+        Xmin->setMinimum(-50.000000000000000);
+        Xmin->setMaximum(50.000000000000000);
+        Xmin->setValue(-5.000000000000000);
+        label_3 = new QLabel(centralwidget);
+        label_3->setObjectName("label_3");
+        label_3->setGeometry(QRect(490, 100, 71, 51));
+        label_3->setFont(font3);
+        label_3->setStyleSheet(QString::fromUtf8("QLable{\n"
+"  color: white; }"));
+        label = new QLabel(centralwidget);
+        label->setObjectName("label");
+        label->setGeometry(QRect(490, 220, 71, 51));
+        label->setFont(font3);
+        label->setStyleSheet(QString::fromUtf8("QLable{\n"
+"  color: white; }"));
+        Xmax = new QDoubleSpinBox(centralwidget);
+        Xmax->setObjectName("Xmax");
+        Xmax->setGeometry(QRect(490, 160, 71, 51));
+        Xmax->setStyleSheet(QString::fromUtf8("QDoubleSpinBox {\n"
+"		background-color: #F0F0F0;\n"
+"		color: #333333;\n"
+"}"));
+        Xmax->setMinimum(-50.000000000000000);
+        Xmax->setMaximum(50.000000000000000);
+        Xmax->setValue(5.000000000000000);
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 1132, 22));
+        menubar->setGeometry(QRect(0, 0, 1127, 22));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName("statusbar");
@@ -698,11 +698,11 @@ public:
         pushButton_open->setText(QCoreApplication::translate("MainWindow", "(", nullptr));
         pushButton_plus_and_minus->setText(QCoreApplication::translate("MainWindow", "+/-", nullptr));
         lineEdit_x->setText(QString());
-        label->setText(QCoreApplication::translate("MainWindow", " X min", nullptr));
         label_2->setText(QCoreApplication::translate("MainWindow", "   Y min", nullptr));
-        label_3->setText(QCoreApplication::translate("MainWindow", " X max", nullptr));
         label_4->setText(QCoreApplication::translate("MainWindow", "   Y max", nullptr));
         label_out->setText(QString());
+        label_3->setText(QCoreApplication::translate("MainWindow", " X max", nullptr));
+        label->setText(QCoreApplication::translate("MainWindow", " X min", nullptr));
     } // retranslateUi
 
 };

@@ -62,7 +62,7 @@ void calculation(in_out *myStruct, stack **top, int *i, double x) {
   char *sign = malloc((length + 1) * sizeof(char));
   strncpy(sign, &myStruct->out[start], length);
   sign[length] = '\0';
-  printf("%s", peek(*top));
+  printf("ВЕРХ%s\n", peek(*top));
   if (strcmp(peek(*top), "x") == 0) {
     a = x;
 
@@ -80,9 +80,12 @@ void calculation(in_out *myStruct, stack **top, int *i, double x) {
     result = function_func(a, sign);
     printf("resultUN = %lf\n", result);
   } else {
+  if (strcmp(peek(*top), "x") == 0) {
+    b = x;
+
+  } else {
     b = strtod(peek(*top), NULL);
-    printf("a = %lf\n", a);
-    printf("b = %lf\n", b);
+  }
     *top = pop(*top);
     result = function_math(a, b, sign);
     printf("resultBIN = %lf\n", result);
@@ -123,7 +126,7 @@ double function_math(double a, double b, char *sign) {
   } else if (strcmp(sign, "/") == 0) {
     result = b / a;
   } else if (strcmp(sign, "m") == 0) {
-    result = fmod(a, b);
+    result = fmod(b, a);
   } else {
     result = pow(b, a);
   }
@@ -155,11 +158,11 @@ double function_func(double a, char *sign) {
 }
 
 // int main() {
-//   double x = 1;
-//   char str[] = "8*-(-1)+9";
+// for(double x = -5; x < 5; (x += 0.5)){
+//   char str[] = "x^2";
 //   double result;
 //   result = smart_calculation(str, x);
 //   printf("РЕЗУЛЬТАТ: %lf", result);
-
+// }
 //   return 0;
 // }

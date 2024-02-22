@@ -53,9 +53,11 @@ private slots:
     void skobki();
     void operations();
     void off();
+    void on();
     void Graph();
     void on_pushButton_x_clicked();
     void on_pushButton_graphics_clicked();
     void TimerSlot();
+    int validation();
 };
 #endif // MAINWINDOW_H

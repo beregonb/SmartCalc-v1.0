@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1132</width>
-    <height>568</height>
+    <width>1127</width>
+    <height>439</height>
    </rect>
   </property>
   <property name="font">
@@ -958,60 +958,10 @@ QPushButton:pressed {
      </rect>
     </property>
    </widget>
-   <widget class="QDoubleSpinBox" name="Xmin">
-    <property name="geometry">
-     <rect>
-      <x>570</x>
-      <y>280</y>
-      <width>71</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QDoubleSpinBox {
-		background-color: #F0F0F0;
-		color: #333333;
-}</string>
-    </property>
-    <property name="minimum">
-     <double>-50.000000000000000</double>
-    </property>
-    <property name="maximum">
-     <double>50.000000000000000</double>
-    </property>
-    <property name="value">
-     <double>-5.000000000000000</double>
-    </property>
-   </widget>
-   <widget class="QDoubleSpinBox" name="Xmax">
-    <property name="geometry">
-     <rect>
-      <x>570</x>
-      <y>160</y>
-      <width>71</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QDoubleSpinBox {
-		background-color: #F0F0F0;
-		color: #333333;
-}</string>
-    </property>
-    <property name="minimum">
-     <double>-50.000000000000000</double>
-    </property>
-    <property name="maximum">
-     <double>50.000000000000000</double>
-    </property>
-    <property name="value">
-     <double>5.000000000000000</double>
-    </property>
-   </widget>
    <widget class="QDoubleSpinBox" name="Ymin">
     <property name="geometry">
      <rect>
-      <x>490</x>
+      <x>570</x>
       <y>280</y>
       <width>71</width>
       <height>51</height>
@@ -1036,7 +986,7 @@ QPushButton:pressed {
    <widget class="QDoubleSpinBox" name="Ymax">
     <property name="geometry">
      <rect>
-      <x>490</x>
+      <x>570</x>
       <y>160</y>
       <width>71</width>
       <height>51</height>
@@ -1058,32 +1008,10 @@ QPushButton:pressed {
      <double>5.000000000000000</double>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>570</x>
-      <y>220</y>
-      <width>71</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>16</pointsize>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QLable{
-  color: white; }</string>
-    </property>
-    <property name="text">
-     <string> X min</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>480</x>
+      <x>560</x>
       <y>220</y>
       <width>81</width>
       <height>51</height>
@@ -1102,32 +1030,10 @@ QPushButton:pressed {
      <string>   Y min</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_3">
-    <property name="geometry">
-     <rect>
-      <x>570</x>
-      <y>100</y>
-      <width>71</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>16</pointsize>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QLable{
-  color: white; }</string>
-    </property>
-    <property name="text">
-     <string> X max</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
-      <x>480</x>
+      <x>560</x>
       <y>100</y>
       <width>81</width>
       <height>51</height>
@@ -1171,13 +1077,107 @@ background-color : white;
      <string/>
     </property>
    </widget>
+   <widget class="QDoubleSpinBox" name="Xmin">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>280</y>
+      <width>71</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QDoubleSpinBox {
+		background-color: #F0F0F0;
+		color: #333333;
+}</string>
+    </property>
+    <property name="minimum">
+     <double>-50.000000000000000</double>
+    </property>
+    <property name="maximum">
+     <double>50.000000000000000</double>
+    </property>
+    <property name="value">
+     <double>-5.000000000000000</double>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>100</y>
+      <width>71</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLable{
+  color: white; }</string>
+    </property>
+    <property name="text">
+     <string> X max</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>220</y>
+      <width>71</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLable{
+  color: white; }</string>
+    </property>
+    <property name="text">
+     <string> X min</string>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="Xmax">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>160</y>
+      <width>71</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QDoubleSpinBox {
+		background-color: #F0F0F0;
+		color: #333333;
+}</string>
+    </property>
+    <property name="minimum">
+     <double>-50.000000000000000</double>
+    </property>
+    <property name="maximum">
+     <double>50.000000000000000</double>
+    </property>
+    <property name="value">
+     <double>5.000000000000000</double>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1132</width>
+     <width>1127</width>
      <height>22</height>
     </rect>
    </property>

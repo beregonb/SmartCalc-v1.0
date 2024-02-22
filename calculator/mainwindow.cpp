@@ -49,12 +49,24 @@ MainWindow::MainWindow(QWidget *parent)
     //grahp
     connect(ui->pushButton_graphics, SIGNAL(clicked()), this, SLOT(Graph()));
 
+    on();
 
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+
+void MainWindow::on()
+{
+    ui->pushButton_plus->setDisabled(true);
+    ui->pushButton_minus->setDisabled(true);
+    ui->pushButton_multiply->setDisabled(true);
+    ui->pushButton_divide->setDisabled(true);
+    ui->pushButton_pow->setDisabled(true);
+    ui->pushButton_mod->setDisabled(true);
 }
 
 void MainWindow::digits_numbers()
@@ -73,6 +85,10 @@ void MainWindow::digits_numbers()
         out += button->text();
     }
 
+    if(skobkiFlag && znack){
+        buffer += znak_mass;
+        znack = false;
+    }
     unar_bool = true;
 
     if(ui->pushButton_plus->isChecked() ||
@@ -90,7 +106,7 @@ void MainWindow::digits_numbers()
         new_lable = (ui->result_show->text() + button->text());
         ui->result_show->setText(new_lable);
     } else {
-        new_lable = (buffer + button->text());
+        new_lable = (buffer + znak_mass + button->text());
         buffer = "";
         buffer = new_lable;
         ui->result_show->setText(new_lable);
@@ -104,11 +120,18 @@ void MainWindow::digits_numbers()
 
 void MainWindow::on_pushButton_dot_clicked()
 {
-    if(!(ui->result_show->text().contains('.'))){
-        ui->result_show->setText(ui->result_show->text() + ".");
-        out += ".";
+    if(skobkiFlag){
+        if(!(ui->result_show->text().contains(','))){
+            ui->result_show->setText(ui->result_show->text() + ",");
+            buffer += ",";
+        }
+    } else {
+        if(!(ui->result_show->text().contains(','))){
+            ui->result_show->setText(ui->result_show->text() + ",");
+            out += ",";
+        }
+        ui->label_out->setText(out);
     }
-    ui->label_out->setText(out);
 }
 
 void MainWindow::operations()
@@ -173,6 +196,7 @@ void MainWindow::math_operations()
         ui->pushButton_pow->isChecked() ||
         ui->pushButton_plus_and_minus->isChecked()){
         off();
+
     }
 
     button->setChecked(true);
@@ -192,10 +216,7 @@ void MainWindow::math_operations()
         }
 
     }
-    if(skobkiFlag){
-        buffer += znak_mass;
-        znack = false;
-    }
+
     //включение кнопки
     if(button->text() == "+"){
         ui->pushButton_plus->setEnabled(false);
@@ -234,6 +255,7 @@ void MainWindow::on_pushButton_del_clicked()
     i = 0;
 
     off();
+    on();
     ui->result_show->setText(out);
     ui->label_out->setText(out);
     ui->lineEdit_x->setText(out);
@@ -282,11 +304,13 @@ void MainWindow::thrig_operations()
          }
 
      } else {
+         trigonom = true;
          skobkiFlag = true;
          i++;
          if(znack){
              out += znak_mass;
              znack = false;
+             znak_mass = "";
          }
      }
      buffer += button->text();
@@ -314,25 +338,29 @@ void MainWindow::off()
     ui->pushButton_divide->setChecked(false);
     ui->pushButton_pow->setChecked(false);
     ui->pushButton_mod->setChecked(false);
+    znack = false;
+    znak_mass = "";
 }
 
 void MainWindow::on_pushButton_x_clicked()
 {
-    if(znack){
+    if(znack && !skobkiFlag){
         out += znak_mass;
         znack = false;
     }
-    off();
+
 
     if(skobkiFlag){
-        buffer += "x";
+        buffer += znak_mass + "x";
 
-        ui->result_show->setText(ui->result_show->text()+ znak_mass + "x");
+        ui->result_show->setText(buffer);
     } else {
         ui->result_show->setText("x");
         out += "x";
+        ui->label_out->setText(out);
     }
-    ui->label_out->setText(out);
+
+    off();
 }
 
 void MainWindow::on_pushButton_equals_clicked()
@@ -344,14 +372,31 @@ void MainWindow::on_pushButton_equals_clicked()
     ui->label_out->setText(out);
     ui->result_show->setText(out);
 
-    double x = ui->lineEdit_x->text().toDouble();
-    const char *str = out.toUtf8().constData();
-    double result = 0; //функция си
+    if(validation()){
+        double x = ui->lineEdit_x->text().toDouble();
+        const char *str = out.toUtf8().constData();
+        double result = 0; //функция си
 
 
-    result = smart_calculation(str, x);
-    ui->result_show->setText(QString::number(result));
+        result = smart_calculation(str, x);
+        ui->result_show->setText(QString::number(result));
+    } else {
+        ui->result_show->setText("ERROR");
+    }
 
+}
+
+int MainWindow::validation()
+{
+    bool error = true;
+
+    if(skobkiFlag || znack){
+        error = false;
+    }
+
+
+
+    return error;
 }
 
 
@@ -387,7 +432,7 @@ void MainWindow:: Graph()
     char *str = ba.data();
     double y_res = 0; //функция си
 
-    for(double i = -50; i <= 50; (i += delta)){
+    for(double i = -50.0; i <= 50.0; (i += delta)){
         x.push_back(i);
         printf("%lf %s\n", i, str);
         y_res = smart_calculation(str, i);

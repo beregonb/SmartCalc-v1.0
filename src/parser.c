@@ -198,7 +198,7 @@ int priority(char *stack) {
   } else if (strcmp(stack, "*") == 0 || strcmp(stack, "/") == 0 ||
              strcmp(stack, "m") == 0) {
     prior = 2;
-  } else if (strcmp(stack, "^") == 0 || strcmp(stack, "~") == 0) {
+  } else if (strcmp(stack, "^") == 0) {
     prior = 3;
   } else if (strcmp(stack, "C") == 0 || strcmp(stack, "S") == 0 ||
              strcmp(stack, "q") == 0 || strcmp(stack, "T") == 0 ||
@@ -215,7 +215,7 @@ int priority(char *stack) {
 void push_stack_priority(stack **top, in_out *myStruct, char *stack,
                          int *length_out) {
   if (isEmpty(*top) || (priority(stack) > priority(peek(*top))) ||
-      strcmp(stack, "(") == 0) {
+      strcmp(stack, "(") == 0 || priority(stack) == 3) {
     *top = push(*top, stack);
   } else if (strcmp(stack, ")") == 0) {
     while (!isEmpty(*top) && strcmp(peek(*top), "(") != 0) {
