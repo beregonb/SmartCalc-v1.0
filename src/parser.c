@@ -62,7 +62,7 @@ void parser(in_out *myStruct) {
           str = push(str, "-");
           i++;
         }
-        if (myStruct->in[i] == '+'&& myStruct->in[i - 1] != ')') {
+        if (myStruct->in[i] == '+' && myStruct->in[i - 1] != ')') {
           out_copy(myStruct, "0", &lenght_out);
           str = push(str, "-");
           i++;

@@ -30,3 +30,17 @@
 3	18	1708622824851485419	/home/bergonb/Documents/beregonb/SimpeCalc_v1.0/build-calculator-Desktop_Qt_6_6_1_GCC_64bit-Debug/calculator_autogen/mocs_compilation.cpp	da135046cf2a7fbb
 20	5152	1708622829979110049	CMakeFiles/calculator.dir/mainwindow.cpp.o	f31040a0cbb47d83
 5152	5880	1708622830703057351	calculator	c373e285f1793d57
+5	23	1708658484233307655	calculator_autogen/timestamp	da135046cf2a7fbb
+5	23	1708658484233307655	calculator_autogen/mocs_compilation.cpp	da135046cf2a7fbb
+5	23	1708658484233307655	/home/bergonb/Documents/beregonb/SimpeCalc_v1.0/build-calculator-Desktop_Qt_6_6_1_GCC_64bit-Debug/calculator_autogen/timestamp	da135046cf2a7fbb
+5	23	1708658484233307655	/home/bergonb/Documents/beregonb/SimpeCalc_v1.0/build-calculator-Desktop_Qt_6_6_1_GCC_64bit-Debug/calculator_autogen/mocs_compilation.cpp	da135046cf2a7fbb
+26	5133	1708658489337522338	CMakeFiles/calculator.dir/mainwindow.cpp.o	f31040a0cbb47d83
+5133	5881	1708658490081555867	calculator	c373e285f1793d57
+3	241	1708658646356720350	calculator_autogen/timestamp	da135046cf2a7fbb
+3	241	1708658646356720350	calculator_autogen/mocs_compilation.cpp	da135046cf2a7fbb
+3	241	1708658646356720350	/home/bergonb/Documents/beregonb/SimpeCalc_v1.0/build-calculator-Desktop_Qt_6_6_1_GCC_64bit-Debug/calculator_autogen/timestamp	da135046cf2a7fbb
+3	241	1708658646356720350	/home/bergonb/Documents/beregonb/SimpeCalc_v1.0/build-calculator-Desktop_Qt_6_6_1_GCC_64bit-Debug/calculator_autogen/mocs_compilation.cpp	da135046cf2a7fbb
+242	1634	1708658647752759732	CMakeFiles/calculator.dir/main.cpp.o	6e172cc364b4f138
+242	5450	1708658651564872191	CMakeFiles/calculator.dir/mainwindow.cpp.o	f31040a0cbb47d83
+242	8585	1708658654692969556	CMakeFiles/calculator.dir/calculator_autogen/mocs_compilation.cpp.o	dbe5b7d82e38924b
+8585	9243	1708658655352990669	calculator	c373e285f1793d57

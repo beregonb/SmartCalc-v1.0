@@ -80,12 +80,12 @@ void calculation(in_out *myStruct, stack **top, int *i, double x) {
     result = function_func(a, sign);
     printf("resultUN = %lf\n", result);
   } else {
-  if (strcmp(peek(*top), "x") == 0) {
-    b = x;
+    if (strcmp(peek(*top), "x") == 0) {
+      b = x;
 
-  } else {
-    b = strtod(peek(*top), NULL);
-  }
+    } else {
+      b = strtod(peek(*top), NULL);
+    }
     *top = pop(*top);
     result = function_math(a, b, sign);
     printf("resultBIN = %lf\n", result);
