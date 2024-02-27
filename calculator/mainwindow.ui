@@ -1181,8 +1181,49 @@ background-color : white;
      <height>22</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QMenuBar {
+    /* Дополнительные стили QMenuBar, если нужны */
+}
+
+QMenuBar::item:selected {
+    background-color: white;
+	color: black;
+}
+
+</string>
+   </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>Вид калькулятора</string>
+    </property>
+    <addaction name="action"/>
+    <addaction name="action_2"/>
+    <addaction name="action_3"/>
+   </widget>
+   <addaction name="menu"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="action">
+   <property name="text">
+    <string>Обычный калькулятор</string>
+   </property>
+  </action>
+  <action name="action_2">
+   <property name="text">
+    <string>Кредитный калькулятор</string>
+   </property>
+  </action>
+  <action name="action_3">
+   <property name="text">
+    <string>Депозитный калькулятор</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
